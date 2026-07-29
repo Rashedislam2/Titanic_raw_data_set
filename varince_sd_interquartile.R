@@ -25,4 +25,40 @@ q3_age<-quantile(df$Age,0.75,na.rm = TRUE)
 
 iqr_age<-q3_age-q1_age
 iqr_age
+# Boxplot for Age
+ggplot(df, aes(y = Age)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  labs(
+    title = "Boxplot of Passenger Ages",
+    subtitle = "Shows Median, IQR, and Outliers",
+    y = "Age"
+  ) +
+  theme_minimal()+
+  annotate("text", x = 0.5, y = q1_age, label = paste("Q1 =", round(q1_age, 1)), 
+           color = "darkgreen", size = 3.5, vjust = 1.5) +
+  annotate("text", x = 0.5, y = median(df$Age, na.rm = TRUE), 
+           label = paste("Median =", round(median(df$Age, na.rm = TRUE), 1)), 
+           color = "darkorange", size = 3.5, vjust = 1.5) +
+  annotate("text", x = 0.5, y = q3_age, label = paste("Q3 =", round(q3_age, 1)), 
+           color = "darkgreen", size = 3.5, vjust = -1.5)
+  
+ggplot(df, aes(y = Age)) +
+  geom_boxplot(fill = "lightblue", color = "darkblue") +
+  labs(
+    title = "Boxplot of Passenger Ages",
+    subtitle = "Shows Median, IQR, and Outliers",
+    y = "Age"
+  ) +
+  theme_minimal() +
+  annotate("text", x = 0.5, y = q1_age, label = paste("Q1 =", round(q1_age, 1)), 
+           color = "darkgreen", size = 3.5, vjust = 1.5) +
+  annotate("text", x = 0.5, y = median(df$Age, na.rm = TRUE), 
+           label = paste("Median =", round(median(df$Age, na.rm = TRUE), 1)), 
+           color = "darkorange", size = 3.5, vjust = 1.5) +
+  annotate("text", x = 0.5, y = q3_age, label = paste("Q3 =", round(q3_age, 1)), 
+           color = "darkgreen", size = 3.5, vjust = -1.5)
+
+
+
+
 
