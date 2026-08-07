@@ -39,5 +39,25 @@ ggplot(df,aes(x=df$Age)) +
     y="density"
   )+
   theme_minimal()
-  
-  
+ #histogram for the fare price
+
+ggplot(titanic_train,aes(x=Fare))+
+  geom_histogram(aes(y=..density..),bins = 25,
+                 fill = "lightgreen",color="black",alpha = 1)+
+  geom_density(color="darkred",size=1)+
+  geom_vline(xintercept = mean(titanic_train$Fare,na.rm = TRUE),color="blue",size=1.5,linetype = "dashed")+
+  geom_vline(xintercept = median(titanic_train$Fare,na.rm = TRUE),color="orange",size=1.5,linetype = "dashed")+
+  labs(title = "distribution of the fare price(highly right skewed)",
+       
+       subtitle=paste("skewness=",round(skew_fare,2),
+                        "|kurtosis=",round(kurt_fare,2)),
+       x="fare",
+       y="density"
+       )+
+  theme_minimal()
+#generating random normal variable
+normal_variable<-rnorm(1000,mean=50,sd=10)
+normal_variable
+skew_norm<-skewness(normal_variable,na.rm = TRUE)                       
+kurt_norm<-kurtosis(normal_variable)
+
