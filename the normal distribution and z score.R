@@ -5,4 +5,41 @@ library(moments)
 mean_age<-mean(titanic_train$Age,na.rm = TRUE)
 sd_age<-sd(titanic_train$Age,na.rm = TRUE)
 
+
+cat("Mean Age:", round(mean_age, 2), "\n")
+cat("SD Age  :", round(sd_age, 2), "\n")
+
 #Z score
+titanic_train<-titanic_train%>%mutate(z_age_manual=(titanic_train$Age-mean_age)/sd_age)
+head(titanic_train %>% select(Age, z_age_manual),10)
+
+#find the unusal passenger (outliers)
+extreme_old<-titanic_train%>%filter(z_age_manual>3)%>%select(Age,z_age_manual)
+
+extreme_old <- titanic_train %>% filter(z_age_manual > 3) %>% select(Age, z_age_manual)
+extreme_old
+
+extreme_young<-titanic_train%>%filter(z_age_manual< -3)%>%select(Age,z_age_manual)
+extreme_young
+
+cat("Passengers older than 3 SDs above mean:\n")
+print(extreme_old)
+cat("\nPassengers younger than 3 SDs below mean:\n")
+print(extreme_young)
+
+#visualizing the z score
+ggplot(titanic_train,aes(x=z_age_manual))+
+  geom_histogram(aes(y=..density..),bins=40,color="darkblue",fill="yellow",alpha = 1)+
+  geom_density(colour = "red",size=1.5)+
+  geom_vline(xintercept = c(-2,2),colour = "green",size=1.5,linetype = "dashed")+
+  geom_vline(xintercept = c(-1,1),colour = "blue",size=1.5,linetype = "dashed")+
+  geom_vline(xintercept = c(-3,3),colour = "red",size=1.5,linetype = "dashed")+
+  labs(
+    title = "Distribution of Z-Scores for Age",
+    subtitle = "Blue lines=±1(Typical values) |Red lines = ±3 SD (Outliers) | green lines = ±2 SD (Unusual)",
+    x = "Z-Score (Standardized Age)",
+    y = "Density"
+  ) +
+  theme_minimal()
+  
+
