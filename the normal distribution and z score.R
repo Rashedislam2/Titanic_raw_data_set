@@ -41,5 +41,16 @@ ggplot(titanic_train,aes(x=z_age_manual))+
     y = "Density"
   ) +
   theme_minimal()
-  
+#practicing normal test
+norm_variable<-rnorm(1000,mean=20,sd=2)
+z_normal<-(norm_variable-mean(norm_variable))/sd(norm_variable)
 
+ ggplot(data.frame(z = z_normal), aes(x = z)) +
+  geom_histogram(aes(y = ..density..), bins = 40, fill = "green", alpha = 0.5) +
+  geom_density(color = "black", size = 1) +
+   geom_vline(xintercept = c(-2,2),color="red",size=1.5,linetype = "dashed")+
+   geom_vline(xintercept = c(-3,3),color="blue",size=1.5,linetype = "dashed")+
+  labs(title = "Perfect Normal Distribution (Z-Scores)",
+       x = "Z-Score", y = "Density") +
+  theme_minimal()
+         
