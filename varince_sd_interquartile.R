@@ -66,7 +66,9 @@ upper_bound_age<-q3_age+1.5*iqr_age
 lower_bound_age<-q1_age-1.5*iqr_age
 #which means values greater than 65 and lower than -7 are outliers
 
+#outliers
+extreme_old <-titanic_train%>%filter(Age>64.8)%>%select(Age)
+extreme_old
 
-
-
-
+extreme_young <-titanic_train%>%filter(Age< -6.69)%>%select(Age)
+extreme_young
