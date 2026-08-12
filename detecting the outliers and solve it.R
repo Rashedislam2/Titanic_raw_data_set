@@ -49,13 +49,51 @@ ggplot(titanic_train,aes(x=z_score_manual))+
   theme_minimal()
 # we can easily see that outliers in histogram
   
-#fixing the outliers in fare price
+#fixing/winsorizing the outliers in fare price
 
+cat("Original Fare outliers:", 
+    sum(titanic_train$Fare > upper_bound, na.rm = TRUE), "\n")
 
+#original fare outlliers=160
 
+titanic_train<-titanic_train%>%mutate(Fare_capped=ifelse(Fare>upper_bound,upper_bound,Fare))
+
+cat("Capped Fare outliers:", 
+    sum(titanic_train$Fare_capped > upper_bound, na.rm = TRUE), "\n")
+#capped fare outliers = 0
+
+titanic_train$Fare_capped
+
+#comparing the plot after capped
+#before capped
+p1<-ggplot(titanic_train,aes(x=Fare))+
+  geom_histogram(bins=40,color="green",fill="lightblue",alpha = 1)
+  
+  #after capped
+p2<-ggplot(titanic_train,aes(x=Fare_capped))+
+  geom_histogram(aes(y=..density..),bins=40,color="red",fill="lightblue",alpha = 1)+
+  geom_density(color="green",size=1.5)
+
+install.packages("gridExtra")
+library(gridExtra)
+
+grid.arrange(p1, p2, ncol = 2)
+
+p3<-ggplot(titanic_train,aes(x=Fare))+
+  geom_histogram(bins=40,color="green",fill="lightblue",alpha = 1)
+
+p4<-ggplot(titanic_train,aes(x=Fare_capped))+
+  geom_histogram(bins=40,color="green",fill="lightblue",alpha = 1)
+
+grid.arrange(p3, p4, ncol = 2)
   
 
+#winsorizing the age 
+sum(titanic_train$Age>extreme_old,na.rm = TRUE)
 
+age_cap_limit <- mean_age + 3 * sd_age
 
+titanic<-titanic_train%>%mutate(Age_capped=ifelse(Age > age_cap_limit,extreme_old,Age))
+titanic_train$Age_capped
 
 
